@@ -1,26 +1,32 @@
 import { AlignJustify, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { logout } from "@/store/auth-slice";
-export default function Header({setOpen}){
-    const dispatch=useDispatch();
-    return(
-        <nav className="flex items-center justify-between w-full">
-            <div className="w-1/5 p-3 md:hidden">
-                <Button onClick={()=>{setOpen(open=>!open)}}>
-                <AlignJustify height={40} width={40} strokeWidth={2.4}/>
-                </Button>
-            </div>
-            <div className="px-auto w-3/5 md:4/5 md:p-3 md:ml-7">
-                <h1 className=" text-3xl font-medium font">shipin</h1>
-            </div>
-            <div className="w-1/5 p-3 px-auto">
-            <Button onClick={()=>{dispatch(logout())}}>
-                <LogOut/>
-                <span className="hidden md:block">Logout</span>
-            </Button>
-                
-            </div>
-        </nav>
-    )
+import { logoutUser } from "@/store/auth-slice";
+
+function AdminHeader({ setOpen }) {
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(logoutUser());
+  }
+
+  return (
+    <header className="flex items-center justify-between px-4 py-3 bg-background border-b">
+      <Button onClick={() => setOpen(true)} className="lg:hidden sm:block">
+        <AlignJustify />
+        <span className="sr-only">Toggle Menu</span>
+      </Button>
+      <div className="flex flex-1 justify-end">
+        <Button
+          onClick={handleLogout}
+          className="inline-flex gap-2 items-center rounded-md px-4 py-2 text-sm font-medium shadow"
+        >
+          <LogOut />
+          Logout
+        </Button>
+      </div>
+    </header>
+  );
 }
+
+export default AdminHeader;

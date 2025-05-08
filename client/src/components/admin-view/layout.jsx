@@ -1,23 +1,24 @@
 import { Outlet } from "react-router-dom";
-import Header from "./header";
-import SideBar from "./sidebar"
+import AdminSideBar from "./sidebar";
+import AdminHeader from "./header";
 import { useState } from "react";
 
-export default function AdminLayout(){
-    const [open,setOpen]=useState(false);
-    return (
-        <main className="min-h-screen max-w-screen  ">
-            <nav className="h-[60px] ">
-                <Header setOpen={setOpen}/>
-            </nav>
-            <div className="grid grid-cols-6">
-            <aside className="hidden md:block h-full md:col-span-1 py-2 px-1">
-                <SideBar open={open} setOpen={setOpen}/>
-            </aside>
-            <section className="h-full col-span-6 md:col-span-5 bg-muted md:grid-cols-8">
-                <Outlet/>
-            </section>
-            </div>
+function AdminLayout() {
+  const [openSidebar, setOpenSidebar] = useState(false);
+
+  return (
+    <div className="flex min-h-screen w-full">
+      {/* admin sidebar */}
+      <AdminSideBar open={openSidebar} setOpen={setOpenSidebar} />
+      <div className="flex flex-1 flex-col">
+        {/* admin header */}
+        <AdminHeader setOpen={setOpenSidebar} />
+        <main className="flex-1 flex-col flex bg-muted/40 p-4 md:p-6">
+          <Outlet />
         </main>
-    )
+      </div>
+    </div>
+  );
 }
+
+export default AdminLayout;
